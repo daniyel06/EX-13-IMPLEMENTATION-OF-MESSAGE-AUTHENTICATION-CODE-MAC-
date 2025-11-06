@@ -1,6 +1,5 @@
 ## EX 13 : IMPLEMENTATION OF MESSAGE AUTHENTICATION CODE(MAC)
 
-
 ## AIM:
 
 To implement a Message Authentication Code (MAC) using a shared secret key and a hash function to verify the integrity and authenticity of a message.
@@ -18,9 +17,57 @@ To implement a Message Authentication Code (MAC) using a shared secret key and a
 
 
 ## PROGRAM:
+```
+#include <stdio.h>
+#include <string.h>
 
+unsigned char generateMAC(char message[], char key[]) {
+    unsigned char mac = 0;
+    int i;
+
+    for (i = 0; i < strlen(message); i++)
+        mac ^= message[i];
+
+    for (i = 0; i < strlen(key); i++)
+        mac ^= key[i];
+
+    return mac;
+}
+
+int main() {
+    char message[100], receivedMessage[100], key[50];
+    unsigned char mac, receivedMAC, newMAC;
+
+    printf("Enter the message: ");
+    scanf("%s", message);
+
+    printf("Enter the shared secret key: ");
+    scanf("%s", key);
+
+    mac = generateMAC(message, key);
+    printf("\nGenerated MAC: %u\n", mac);
+
+    printf("\n--- Receiver Side ---\n");
+    printf("Enter the received message: ");
+    scanf("%s", receivedMessage);
+
+    printf("Enter the received MAC: ");
+    scanf("%hhu", &receivedMAC);
+
+    newMAC = generateMAC(receivedMessage, key);
+
+    if (newMAC == receivedMAC)
+        printf("\nMessage is authentic and unaltered.\n");
+    else
+        printf("\nMessage integrity verification failed.\n");
+
+    return 0;
+}
+```
 ## OUTPUT:
- 
+
+<img width="1920" height="990" alt="1" src="https://github.com/user-attachments/assets/f7bf4444-2892-413d-b3b5-cd77d931a5b8" />
+
 ## RESULT:
 
 The Message Authentication Code (MAC) was implemented successfully, allowing the verification	of	message	integrity	and	authenticity	using	a	shared	secret	key.
